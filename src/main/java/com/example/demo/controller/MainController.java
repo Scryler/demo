@@ -33,7 +33,7 @@ public class MainController {
         return bookList.get(id);
     }
 
-    @PostMapping
+    @PostMapping(consumes = "application/json")
     public List<Book> createBook(@RequestBody Book book){
 
         bookList.add(book);
@@ -50,11 +50,20 @@ public class MainController {
     }
 
     @DeleteMapping("{id}")
-    public void delete(@PathVariable long id){
+    public List<Book> delete(@PathVariable int id){
 
         bookList.remove(id);
 
+        return bookList;
+
     }
 
+    @DeleteMapping(consumes = "application/json")
+    public List<Book> delete(@RequestBody Book book){
+
+        bookList.remove(book);
+
+        return bookList;
+    }
 
 }
