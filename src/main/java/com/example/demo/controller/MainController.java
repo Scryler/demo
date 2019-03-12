@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 
 import com.example.demo.domain.Book;
+import com.example.demo.exception.NotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -31,7 +32,17 @@ public class MainController {
 
     @GetMapping("{id}")
     public Book getOneBook(@PathVariable int id){
+
+        getBook(id);
+
         return bookList.get(id);
+    }
+
+    private void getBook(@PathVariable int id) {
+        bookList.stream()
+                .filter(book -> id == book.getId())
+                .findFirst()
+                .orElseThrow(NotFoundException::new);
     }
 
     @PostMapping(consumes = "application/json")
